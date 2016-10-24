@@ -1,0 +1,25 @@
+{
+  "name": "awkwardideas/modelmaker",
+  "description": "MySQL to Laravel Generations",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Chad Haney",
+      "email": "chad@awkwardideas.com"
+    },
+    {
+      "name": "Awkward Ideas",
+      "email": "support@awkwardideas.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.6.4",
+    "awkwardideas/mypdo" : "@dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "AwkwardIdeas\\ModelMaker\\": "src/"
+    }
+  },
+  "minimum-stability": "dev"
+}
