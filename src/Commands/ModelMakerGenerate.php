@@ -45,7 +45,7 @@ class ModelMakerGenerate extends Command
             $from= $this->ask('What database do you want to create the models from?');
         }
         $this->comment("Building models from $from.");
-        $this->comment(PHP_EOL.ModelMaker::GenerateMigrations($from).PHP_EOL);
+        $this->comment(PHP_EOL.ModelMaker::GenerateModels($from).PHP_EOL);
     }
 
     /**

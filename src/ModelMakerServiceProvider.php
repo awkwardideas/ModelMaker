@@ -5,6 +5,10 @@ use AwkwardIdeas\MyPDO\MyPDOServiceProvider;
 
 class ModelMakerServiceProvider extends ServiceProvider
 {
+    protected $commands = [
+        'AwkwardIdeas\ModelMaker\Commands\ModelMakerClean',
+        'AwkwardIdeas\ModelMaker\Commands\ModelMakerGenerate',
+    ];
 
     /**
      * Perform post-registration booting of services.
@@ -15,7 +19,16 @@ class ModelMakerServiceProvider extends ServiceProvider
     {
         $configPath = __DIR__ . '/../config/modelmaker.php';
 
-        $this->publishes([$configPath => $this->getConfigPath()], 'config');
+        $this->publishes([
+            $configPath => $this->getConfigPath(), 'config'
+        ]);
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Commands\ModelMakerClean::class,
+                Commands\ModelMakerGenerate::class,
+            ]);
+        }
     }
 
     /**
@@ -26,7 +39,9 @@ class ModelMakerServiceProvider extends ServiceProvider
     public function register()
     {
 
-        $this->mergeConfigFrom(__DIR__ . '/../config/modelmaker.php', 'modelmaker');
+        $this->mergeConfigFrom(
+            __DIR__ . '/../config/modelmaker.php', 'modelmaker'
+        );
 
         $this->app['modelmaker.clean'] = $this->app->share(function () {
             return new Commands\ModelMakerClean();
