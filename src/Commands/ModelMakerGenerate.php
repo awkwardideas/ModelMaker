@@ -3,7 +3,7 @@
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
-use AwkwardIdeas\Migrator\Migrator;
+use AwkwardIdeas\ModelMaker\ModelMaker;
 
 class ModelMakerGenerate extends Command
 {

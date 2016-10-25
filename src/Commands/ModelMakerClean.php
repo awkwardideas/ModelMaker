@@ -1,9 +1,9 @@
-<?php namespace AwkwardIdeas\Migrator\Commands;
+<?php namespace AwkwardIdeas\ModelMaker\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
-use AwkwardIdeas\Migrator\Migrator;
+use AwkwardIdeas\ModelMaker\ModelMaker;
 
 class ModelMakerClean extends Command
 {
