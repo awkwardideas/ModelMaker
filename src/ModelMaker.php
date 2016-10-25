@@ -241,7 +241,7 @@ class ModelMaker{
     private function GetModelPrimaryKey($tablename, $columns, $indentation)
     {
         $output = "";
-        $columnData = self::GetColumnData($tablename, $columns);
+        $columnData = self::GetColumnData($tablename, $columns, $indentation);
         if(count($columnData['primaryKeys']) == 1){
             $output .= $indentation . "/**" . PHP_EOL
                 . $indentation . " * The column which is the primary key." . PHP_EOL
@@ -274,7 +274,7 @@ class ModelMaker{
         return $output;
     }
 
-    private function GetColumnData($tablename, $columns){
+    private function GetColumnData($tablename, $columns, $indentation){
         $tabledata = [
             "foreignKeys" => [],
             "primaryKeys" => [],
