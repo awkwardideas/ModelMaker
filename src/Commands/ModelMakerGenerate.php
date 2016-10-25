@@ -12,7 +12,7 @@ class ModelMakerGenerate extends Command
      *
      * @var string
      */
-    protected $signature = 'modelmaker:generate {--from=}';
+    protected $signature = 'modelmaker:generate {--from=} {--namespace=} {--connection=}';
 
     /**
      * The console command description.
@@ -44,8 +44,21 @@ class ModelMakerGenerate extends Command
         } else {
             $from= $this->ask('What database do you want to create the models from?');
         }
+
+        if ($this->option('namespace') != "") {
+            $namespace = $this->option('namespace');
+        }else{
+            $namespace = "App";
+        }
+
+        if ($this->option('connection') != "") {
+            $connection = $this->option('connection');
+        }else{
+            $connection = "";
+        }
+
         $this->comment("Building models from $from.");
-        $this->comment(PHP_EOL.ModelMaker::GenerateModels($from).PHP_EOL);
+        $this->comment(PHP_EOL.ModelMaker::GenerateModels($from, $namespace, $connection).PHP_EOL);
     }
 
     /**

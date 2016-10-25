@@ -112,7 +112,7 @@ class ModelMaker{
         return "Model Maker Files Deleted in $modelMakerDirectory";
     }
 
-    public static function GenerateModels($database){
+    public static function GenerateModels($database, $namespace, $connection){
         $myLaravel = new ModelMaker();
         if($database!=""){
             $myLaravel->SetDatabase($database);
@@ -120,7 +120,7 @@ class ModelMaker{
         $tables = $myLaravel->GetTables();
         foreach ($tables as $table) {
             $tablename = $table[0];
-            $myLaravel->CreateModelFile($tablename);
+            $myLaravel->CreateModelFile($tablename, $namespace, $connection);
         }
         return "New Model Files Created in " . self::GetModelMakerDirectory();
     }
@@ -141,8 +141,8 @@ class ModelMaker{
         return $columns;
     }
 
-    public function CreateModelFile($tablename){
-        $fileData = $this->GetFileOutput($tablename);
+    public function CreateModelFile($tablename, $namespace, $connection){
+        $fileData = $this->GetFileOutput($tablename, $namespace, $connection);
         $fileName = $this->GetFileName($tablename);
         $dir = self::GetModelMakerDirectory();
 
@@ -165,21 +165,21 @@ class ModelMaker{
     }
 
     private function GetFileName($tablename){
-        return $tablename . ".php";
+        return ucwords($tablename) . ".php";
     }
 
-    private function GetFileOutput($tablename)
+    private function GetFileOutput($tablename, $namespace, $connection)
     {
         $columns = $this->DescribeTable($tablename);
         $output = "<?php" . PHP_EOL
             . PHP_EOL
-            . "namespace App;" . PHP_EOL
+            . "namespace $namespace;" . PHP_EOL
             . PHP_EOL
             . "use Illuminate\Database\Eloquent\Model;" . PHP_EOL
             . PHP_EOL
             . "class " . ucwords($tablename) . " extends Model" . PHP_EOL
             . "{" . PHP_EOL
-            . self::GetModelCode($tablename, $columns, indent())
+            . self::GetModelCode($tablename, $columns, $connection, indent())
             . "}";
         $output .= PHP_EOL . PHP_EOL . self::CommentTableStructure($columns, indent());
         return $output;
@@ -197,8 +197,11 @@ class ModelMaker{
         return $output;
     }
 
-    private function GetModelCode($tablename, $columns, $indentation){
-        $output = $indentation. self::GetModelDatabase($indentation);
+    private function GetModelCode($tablename, $columns, $connection, $indentation){
+        $output ="";
+        if($connection!=""){
+            $output = $indentation. self::GetModelDatabase($connection, $indentation);
+        }
         $output .= self::GetModelTableName($tablename, $indentation);
         $output .= self::GetTimestampsCode($indentation);
         $output .= self::GetModelPrimaryKey($tablename, $columns, $indentation);
@@ -207,14 +210,14 @@ class ModelMaker{
     }
 
 
-    private function GetModelDatabase($indentation){
+    private function GetModelDatabase($connection, $indentation){
         return $indentation . "/**" . PHP_EOL
         . $indentation . " * The connection name for the model." . PHP_EOL
         . $indentation . " *" . PHP_EOL
         . $indentation . " * @var string" . PHP_EOL
         . $indentation . " */" . PHP_EOL
         . PHP_EOL
-        . $indentation . 'protected $connection = \'mysql_rfq\';' . PHP_EOL;
+        . $indentation . 'protected $connection = \'' . $connection . '\';' . PHP_EOL;
     }
 
     private function GetModelTableName($tablename, $indentation){
