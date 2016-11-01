@@ -36,4 +36,6 @@ Create migration files using the database information in .env
 Options:
 
 --from=  Database to migrate from
---force  Bypass confirmations
+--namespace= Defaults to App, but if provided will output with provided namespace
+--connection= If provided, adds connection reference to model.  Use for multi database situations.
+

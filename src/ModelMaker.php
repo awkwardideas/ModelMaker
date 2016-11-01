@@ -211,7 +211,7 @@ class ModelMaker{
 
 
     private function GetModelDatabase($connection, $indentation){
-        return "/**" . PHP_EOL
+        return $indentation . "/**" . PHP_EOL
         . $indentation . " * The connection name for the model." . PHP_EOL
         . $indentation . " *" . PHP_EOL
         . $indentation . " * @var string" . PHP_EOL
@@ -232,12 +232,12 @@ class ModelMaker{
 
     private function GetTimestampsCode($indentation){
         return $indentation . "/**" . PHP_EOL
-            . $indentation . " * Indicates if the model should be timestamped." . PHP_EOL
-            . $indentation . " *" . PHP_EOL
-            . $indentation . " * @var bool" . PHP_EOL
-            . $indentation . " */" . PHP_EOL
-            . PHP_EOL
-            . $indentation . 'public $timestamps = false;' . PHP_EOL;
+        . $indentation . " * Indicates if the model should be timestamped." . PHP_EOL
+        . $indentation . " *" . PHP_EOL
+        . $indentation . " * @var bool" . PHP_EOL
+        . $indentation . " */" . PHP_EOL
+        . PHP_EOL
+        . $indentation . 'public $timestamps = false;' . PHP_EOL;
 
     }
 
@@ -272,7 +272,7 @@ class ModelMaker{
         foreach($columns as $columndata){
             $output.= "'".$columndata["Field"]."',";
         }
-        
+
         $output .= '];'. PHP_EOL;
         return $output;
     }
