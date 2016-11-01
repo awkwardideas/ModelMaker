@@ -211,7 +211,7 @@ class ModelMaker{
 
 
     private function GetModelDatabase($connection, $indentation){
-        return $indentation . "/**" . PHP_EOL
+        return "/**" . PHP_EOL
         . $indentation . " * The connection name for the model." . PHP_EOL
         . $indentation . " *" . PHP_EOL
         . $indentation . " * @var string" . PHP_EOL
